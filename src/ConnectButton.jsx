@@ -1,4 +1,4 @@
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi"
+import { useAccount } from "wagmi"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
 import React from "react"
 
@@ -13,11 +13,6 @@ function Chain() {
 export default function ConnectButton(props) {
 	const { open } = useWeb3Modal()
 	const { isConnected } = useAccount()
-	const network = useSwitchNetwork({
-		onSuccess(data) {
-			console.log("Success", data)
-		},
-	})
 
 	return (
 		<>
