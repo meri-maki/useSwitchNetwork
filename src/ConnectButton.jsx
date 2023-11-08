@@ -8,8 +8,16 @@ function Account() {
 
 export default function ConnectButton(props) {
 	const { open } = useWeb3Modal()
-	const { isConnected, address } = useAccount()
+	const { isConnected, address } = useAccount({
+		onConnect() {
+			setEnableRead(true)
+		},
+		onDisconnect() {
+			setEnableRead(false)
+		},
+	})
 	const { chain } = useNetwork()
+	const [enableRead, setEnableRead] = useState(false)
 
 	const { chains, error: chainError, isLoading: chainLoading, pendingChainId, switchNetwork } = useSwitchNetwork({ throwForSwitchChainNotSupported: true })
 
@@ -26,7 +34,7 @@ export default function ConnectButton(props) {
 
 	const read = useContractReads({
 		suspense: true,
-		enabled: true,
+		enabled: enableRead,
 		contracts: [
 			{
 				address: "0x49cC7de889C1e4bDc1b4156B882cA5c76C668987",
