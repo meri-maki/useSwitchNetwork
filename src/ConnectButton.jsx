@@ -21,7 +21,7 @@ export default function ConnectButton(props) {
 
 	const { chains, error: chainError, isLoading: chainLoading, pendingChainId, switchNetwork } = useSwitchNetwork({ throwForSwitchChainNotSupported: true })
 
-	const [count, setSuccessCount] = useState(false)
+	const [count, setSuccessCount] = useState(0)
 	const abi = [
 		{
 			inputs: [{ internalType: "address", name: "owner", type: "address" }],
