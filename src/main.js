@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client"
 
 import React from "react"
 
-import { WagmiConfig, createConfig, configureChains } from "wagmi"
+import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi"
 import { polygon, arbitrum, bsc, sepolia } from "wagmi/chains"
 import { InjectedConnector } from "wagmi/connectors/injected"
 
@@ -21,7 +21,7 @@ import mainconfig from "./config"
 const infuraId = mainconfig.services.infura.key
 const projectId = mainconfig.services.walletconnect.key
 
-const selectedChains = [polygon, arbitrum, bsc, sepolia]
+const selectedChains = [mainnet, polygon, arbitrum, bsc]
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(selectedChains, [infuraProvider({ apiKey: infuraId }), walletConnectProvider({ projectId }), publicProvider()])
 const connector = new InjectedConnector({ chains: selectedChains })
@@ -47,6 +47,7 @@ const wagmiConfig = createConfig({
 })
 
 createWeb3Modal({
+	defaultChain: mainnet,
 	wagmiConfig,
 	projectId,
 	chains,
@@ -56,6 +57,6 @@ const root = createRoot(document.getElementById("page-container"))
 
 root.render(
 	<WagmiConfig config={wagmiConfig}>
-			<Main />
+		<Main />
 	</WagmiConfig>
 )
