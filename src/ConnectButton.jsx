@@ -1,70 +1,59 @@
-import { useAccount, useSwitchNetwork, useNetwork, useContractReads } from "wagmi"
+import { useAccount, useSwitchNetwork, useNetwork, useContractReads, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi"
 import { useWeb3Modal } from "@web3modal/wagmi/react"
 import React, { useState } from "react"
+import { arbitrum, bsc, mainnet, polygon } from "viem/chains"
 
 function Account() {
 	return <w3m-account-button balance={false} />
 }
 
 export default function ConnectButton(props) {
+	const NFTcontracts = {
+		Sepolia: "0x42Fbf87Cd983c0F0BCdfF2d8A5904CD4968cD76F",
+		Ethereum: "0x49cC7de889C1e4bDc1b4156B882cA5c76C668987",
+		"Arbitrum One": "0x6f2C97dB74D4d3E8A31e628325A39bbef928dd59",
+		Polygon: "0xA42ccA468fd07491824Ab121CB559f1B3791e92C",
+		"BNB Smart Chain": "0xFA17c9e4f5Ec1A62d032731fE0a9529D7B851BE6",
+	}
 	const { open } = useWeb3Modal()
 	const { isConnected, address } = useAccount({
 		onConnect() {
-			setEnableRead(true)
-		},
-		onDisconnect() {
-			setEnableRead(false)
+			refetch()
 		},
 	})
 	const { chain } = useNetwork()
-	const [enableRead, setEnableRead] = useState(false)
 
 	const { chains, error: chainError, isLoading: chainLoading, pendingChainId, switchNetwork } = useSwitchNetwork({ throwForSwitchChainNotSupported: true })
 
-	const [count, setSuccessCount] = useState(0)
-	const abi = [
-		{
-			inputs: [{ internalType: "address", name: "owner", type: "address" }],
-			name: "tokensOfOwner",
-			outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
-			stateMutability: "view",
-			type: "function",
-		},
-	]
-
-	const read = useContractReads({
-		suspense: true,
-		enabled: enableRead,
-		contracts: [
+	const { refetch, config } = usePrepareContractWrite({
+		address: isConnected ? NFTcontracts[chain.name] : "0x0",
+		abi: [
 			{
-				address: "0x49cC7de889C1e4bDc1b4156B882cA5c76C668987",
-				abi: abi,
-				functionName: "tokensOfOwner",
-				args: [address],
-			},
-			{
-				address: "0xA42ccA468fd07491824Ab121CB559f1B3791e92C",
-				abi: abi,
-				functionName: "tokensOfOwner",
-				args: [address],
-			},
-			{
-				address: "0x6f2C97dB74D4d3E8A31e628325A39bbef928dd59",
-				abi: abi,
-				functionName: "tokensOfOwner",
-				args: [address],
-			},
-			{
-				address: "0xFA17c9e4f5Ec1A62d032731fE0a9529D7B851BE6",
-				abi: abi,
-				functionName: "tokensOfOwner",
-				args: [address],
+				name: "mint",
+				type: "function",
+				stateMutability: "payable",
+				inputs: [{ internalType: "uint256", name: "_mintAmount", type: "uint256" }],
+				outputs: [],
 			},
 		],
+		args: ["1"],
+		functionName: "mint",
+	})
+
+	const { error, isError, write, data } = useContractWrite(config)
+
+	const {
+		isLoading,
+		isSuccess,
+		error: transError,
+		isError: isTransError,
+	} = useWaitForTransaction({
+		hash: data?.hash,
 		onSuccess(data) {
-			console.log(data)
-			const successArray = data.filter((item) => item.status === "success")
-			setSuccessCount(successArray.length)
+			console.log("SuccessTrans", data)
+		},
+		onError(error) {
+			console.log(error)
 		},
 	})
 	return (
@@ -72,7 +61,14 @@ export default function ConnectButton(props) {
 			{isConnected ? (
 				<>
 					<Account />
-					<h3>Contract reads: {count} of 4</h3>
+					<button
+						onClick={() => {
+							write?.()
+						}}
+					>
+						MINT
+					</button>
+					<p>{isError || isTransError ? (error || transError)?.message : "no mint error"}</p>
 					<h2>Currently connected to {chain.name}</h2>
 					<div style={{ display: "flex", gap: "8px", marginBottom: "36px", flexWrap: "wrap" }}>
 						{chains.map((x) => (
