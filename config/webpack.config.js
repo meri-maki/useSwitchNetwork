@@ -18,7 +18,6 @@ module.exports = function (buildMode) {
 			template: "public/index.html",
 			chunks: ["main"],
 		},
-
 	]
 
 	const plugins = [
@@ -48,6 +47,8 @@ module.exports = function (buildMode) {
 			process: "process/browser",
 			Buffer: ["buffer", "Buffer"],
 		}),
+		/* new BundleAnalyzerPlugin(),
+	].filter(Boolean) */
 		!isProduction ? new BundleAnalyzerPlugin() : null,
 	].filter(Boolean)
 	//const isDevelopment = !isProduction
@@ -55,13 +56,9 @@ module.exports = function (buildMode) {
 	return {
 		mode: buildMode,
 		entry: {
-			main: "./src/main.js",
+			main: "./src/pages/main.js",
 		},
-		/* performance: {
-			hints: "error",
-			maxAssetSize: 100 * 1024, 
-			maxEntrypointSize: 100 * 1024, 
-		}, */
+
 		output: {
 			filename: "js/[name].[contenthash:8].js",
 			path: paths.appBuild,

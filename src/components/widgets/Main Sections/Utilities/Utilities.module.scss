@@ -1,0 +1,219 @@
+.utilities {
+    .content {
+        -webkit-transform: none;
+        position: relative;
+    }
+
+    .mainBlock {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .addedBlock {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 80px;
+
+        .card {
+            padding: 16px 24px;
+            border-radius: 24px;
+
+            border: 1px solid var(--bg-300, #3F3F46);
+            width: 100%;
+            position: relative;
+
+            p {
+                margin-top: -8px;
+            }
+
+            .chat {
+                transform: rotate(8deg);
+                right: 0px;
+                top: -40px;
+            }
+
+            .discord {
+                transform: rotate(-15deg);
+                left: 93px;
+                bottom: -63px;
+            }
+        }
+    }
+
+    .diamond {
+        display: none;
+        height: auto;
+        right: var(--mg-lr);
+        bottom: 0;
+    }
+
+    .small {
+        display: none;
+        left: 0;
+        top: 40%;
+    }
+
+    /*  .blur {
+        pointer-events: none;
+        width: 1000px;
+        height: 1000px;
+        position: absolute;
+        margin: 0 auto;
+        left: -600px;
+        text-align: center;
+        mix-blend-mode: screen;
+        background: radial-gradient(circle, rgba(204, 51, 204, 0.6) 0%, rgba(0, 212, 255, 0) 100%);
+        filter: blur(100px);
+        opacity: .7;
+        background-repeat: no-repeat;
+        z-index: -2;
+        top: -240px;
+
+    } */
+
+    .cardBlock {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 48px;
+
+        .card {
+
+            .cardFlex {
+                display: flex;
+                flex-direction: row;
+                gap: 16px;
+                align-items: center;
+                margin-bottom: 16px;
+
+                h4 {
+                    margin-bottom: 0;
+                }
+            }
+
+            img {
+                width: 72px;
+                height: auto;
+            }
+        }
+    }
+}
+
+@media screen and (min-width:706px) {
+
+    .utilities {
+
+        .addedBlock {
+            gap: 16px;
+
+            .card {
+                padding: 32px;
+                border-radius: 30px;
+
+                p {
+                    margin-top: 0px;
+                }
+
+                .chat {
+                    right: 180px;
+                    top: -40px;
+                }
+
+                .discord {
+                    left: initial;
+                    right: 20px;
+                    bottom: -43px;
+                }
+            }
+        }
+
+        .diamond {
+            display: block;
+            width: 120px;
+            bottom: 500px;
+        }
+
+        .cardBlock {
+            .card {
+                max-width: 300px;
+
+                .cardFlex {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-bottom: 0px;
+
+                    h4 {
+                        margin-bottom: var(--h4-mb);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width:1024px) {
+
+    .utilities {
+        .mainBlock {
+
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        h2 {
+            width: min-content;
+        }
+
+        .addedBlock {
+            flex-direction: row;
+            justify-content: space-between;
+
+            .card {
+                max-width: 368px;
+
+
+                &:last-of-type {
+                    max-width: calc(2*304px + 48px);
+                    width: 100%;
+                }
+
+                .chat {
+                    right: 32px;
+                    top: initial;
+                    bottom: -37px;
+                    width: 64px;
+                    height: 64px;
+                }
+
+                .discord {
+                    left: initial;
+                    right: 138px;
+                    bottom: initial;
+                    top: -40px;
+                    transform: rotate(15deg);
+                }
+            }
+        }
+
+        .diamond {
+            width: 120px;
+            right: initial;
+            left: 60px;
+            bottom: 300px;
+
+        }
+
+        .small {
+            display: block;
+        }
+
+        .cardBlock {
+            max-width: calc(2*304px + 48px);
+
+            .card {
+                max-width: 304px;
+            }
+        }
+    }
+}

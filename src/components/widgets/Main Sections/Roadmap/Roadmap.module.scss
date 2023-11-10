@@ -1,0 +1,205 @@
+.roadmap {
+    position: relative;
+
+
+
+    .img {
+        position: absolute;
+        left: -50%;
+        top: 20%;
+    }
+
+    .icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+    }
+
+    .line {
+        position: absolute;
+        width: 2px;
+        height: 85%;
+        background: linear-gradient(180deg, #F79F1F 35.09%, rgba(247, 159, 31, 0.00) 100%);
+        left: calc(
+                /* var(--mg-lr) + */
+                7px);
+        border-radius: 1px;
+        top: 72px;
+    }
+
+    .map {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.step {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 48px;
+
+    &.gitbook {
+        .textBlock {
+            cursor: pointer;
+            box-shadow: none;
+            transition: all 0.4s ease;
+
+            &:hover {
+                box-shadow: var(--button-gradient);
+                color: var(--bg-100);
+                background-color: var(--color-white);
+            }
+        }
+    }
+
+
+
+    .circle {
+        width: 16px;
+        height: 16px;
+        background: black;
+        color: black;
+        border: solid 4px var(--primary-200);
+        border-radius: 50%;
+        flex-shrink: 0;
+        z-index: 1;
+    }
+
+    .textBlock {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px;
+    }
+
+    &.complete {
+
+        path {
+            stroke: var(--primary-200);
+        }
+
+        .circle {
+            width: 16px;
+            height: 16px;
+            background-color: var(--primary-200);
+        }
+
+        .textBlock {
+            color: var(--primary-200);
+            border-radius: 20px;
+            background: rgba(63, 63, 70, 0.30);
+            backdrop-filter: blur(8px);
+            padding: 16px 24px;
+        }
+
+    }
+
+
+    &.complex {
+        display: block;
+        margin-bottom: 48px;
+
+        .mainBlock {
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            gap: 24px;
+            margin-bottom: 8px;
+        }
+
+        .textBlock {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+        }
+
+
+
+        .list {
+            color: var(--color-white);
+            margin-left: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+
+            li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 24px;
+            }
+
+            .circleList {
+                width: 8px;
+                height: 8px;
+                flex-shrink: 0;
+                background-color: var(--primary-200);
+                border-radius: 50%;
+                margin-right: 30px;
+            }
+
+            .circleSmall {
+                width: 4px;
+                height: 4px;
+                flex-shrink: 0;
+                opacity: 0.5;
+                background-color: var(--color-white);
+                border-radius: 50%;
+            }
+
+        }
+
+        &.complete {
+            .list {
+                color: var(--primary-200);
+
+                .circleSmall {
+                    background-color: var(--primary-200);
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (min-width:706px) {
+    .roadmap {
+        .line {
+            top: 96px;
+        }
+    }
+
+    .step {
+        .textBlock {
+            font-size: 32px;
+            line-height: 48px;
+        }
+    }
+}
+
+@media screen and (min-width:1024px) {
+    .roadmap {
+        .line {
+            top: 112px;
+        }
+    }
+
+    .step {
+        gap: 48px;
+        margin-bottom: 64px;
+
+
+        &.complex {
+            margin-bottom: 64px;
+
+            .mainBlock {
+                gap: 48px;
+            }
+        }
+    }
+}

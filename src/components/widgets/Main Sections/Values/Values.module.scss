@@ -1,0 +1,135 @@
+.values {
+    .cardBlock {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 48px;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+
+            .cardFlex {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 16px;
+
+                h4 {
+                    margin-bottom: 0;
+                }
+            }
+
+            .img {
+                //width: 80px;
+                height: auto;
+                padding: 8px;
+            }
+
+            .infoBlock {
+                min-height: 240px;
+                height: 100%;
+                border-radius: 0px 40px 40px 40px;
+                background: var(--glass-back);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 16px;
+
+
+                padding: 32px;
+                backdrop-filter: blur(8px);
+            }
+        }
+    }
+}
+
+@media screen and (min-width:730px) {
+
+    .values {
+
+        .cardBlock {
+            padding: 0 var(--mg-lr);
+            padding-bottom: 24px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 16px;
+            white-space: nowrap;
+            position: relative;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+
+            &::-webkit-scrollbar {
+                height: 5px;
+                /* width of the entire scrollbar */
+            }
+
+            &::-webkit-scrollbar-track {
+                background: var(--bg-100);
+                /* color of the tracking area */
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: var(--bg-200);
+                /* color of the scroll thumb */
+                border-radius: 20px;
+                /* roundness of the scroll thumb */
+                border: none;
+                /* creates padding around scroll thumb */
+            }
+
+            .card {
+                min-width: 304px;
+                white-space: normal;
+
+                .cardFlex {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-bottom: 0;
+
+                    h4 {
+                        margin-bottom: var(--h4-mb);
+                    }
+                }
+
+                h4 {
+                    height: 80px;
+                    flex-shrink: 0;
+                }
+
+
+                .infoBlock {
+                    min-height: 240px;
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width:1024px) {
+
+    .values {
+        .cardBlock {
+            padding: 0;
+            padding-bottom: 0;
+            white-space: normal;
+            overflow-x: initial;
+            overflow-y: initial;
+            -webkit-overflow-scrolling: initial;
+            width: 100%;
+
+
+            .card {
+                width: 100%;
+                min-width: initial;
+                max-width: 336px;
+            }
+        }
+    }
+}
