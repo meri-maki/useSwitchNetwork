@@ -7,6 +7,7 @@ import Link from "../../ui/Link/Link"
 import cls from "./ConnectModal.module.scss"
 import MM from "@/mm.svg"
 import WC from "@/wc.svg"
+import { Modal } from "../../ui/Modal/Modal"
 
 function WCConnector(props) {
 	const { open } = useWeb3Modal()
