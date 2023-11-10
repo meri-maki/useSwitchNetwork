@@ -1,4 +1,8 @@
 import { createWeb3Modal } from "@web3modal/wagmi/react"
+import "~/styles/helpers/resetNew.scss"
+import "~/styles/helpers/animations.scss"
+import "~/styles/helpers/moving-objects.scss"
+import "~/styles/ui/index.scss"
 import { walletConnectProvider } from "@web3modal/wagmi"
 
 import { createRoot } from "react-dom/client"
