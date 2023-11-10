@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react"
 
 import ConnectButton from "./ConnectButton.jsx"
+import NFT from "./NFT/NFT.jsx"
 const MintNFT = lazy(() => import("./MintNFT/MintNFT"))
-
 
 const Main = () => {
 	return (
@@ -11,7 +11,7 @@ const Main = () => {
 				<main className="main-sections">
 					{/* <ConnectButton /> */}
 					<Suspense fallback={<p>Loading</p>}>
-						<MintNFT/>
+						<NFT />
 					</Suspense>
 				</main>
 			</div>
