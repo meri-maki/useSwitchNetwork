@@ -5,14 +5,26 @@ const clientToken = window.localStorage["tooncoin:client_token"] || makeClientTo
 
 window.localStorage["tooncoin:client_token"] = clientToken
 window.localStorage["tooncoin:first_visit_at"] = window.localStorage["tooncoin:first_visit_at"] || Date.now()
+let injectedProvider = false
+let cryptoBrowser = false
 
+if (typeof window.ethereum !== "undefined") {
+	injectedProvider = true
+}
+
+if (window.crypto && window.crypto.subtle) {
+	cryptoBrowser = true
+}
+
+const isMetaMask = injectedProvider ? window.ethereum.isMetaMask : false
+export const supportedChains = [1, 56, 137, 42161]
 const mainconfig = {
 	query: query,
 	isDebug: isDebug,
 	isProduction: isProduction,
 	isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
 	isMobile: /iphone|ipad|android/i.test(window.navigator.userAgent),
-	isMetaMask: /metamask/i.test(window.navigator.userAgent), //testing whether the user's browser is running the MetaMask extension
+	isMetaMask: isMetaMask, //testing whether the user's browser is running the MetaMask extension
 	clientToken: clientToken,
 	locale: query["locale"] || query["lang"] || window.navigator.language || undefined,
 	ethAmountQueryKey: "eth_amount",

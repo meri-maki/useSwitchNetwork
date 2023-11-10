@@ -1,0 +1,50 @@
+.link {
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.16px;
+    text-transform: capitalize;
+    padding: 8px 0px;
+    cursor: pointer;
+
+
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    &.arrow {
+        padding: 0;
+
+        .arrow {
+            width: 24px;
+            height: 24px;
+        }
+
+        &:hover {
+            .arrow {
+                animation: arrow 1.4s ease-in-out infinite;
+            }
+        }
+    }
+
+}
+
+.wrapper {
+    cursor: pointer;
+}
+
+@keyframes arrow {
+    0% {
+        transform: translateX(0px);
+    }
+
+    50% {
+        transform: translateX(7px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
