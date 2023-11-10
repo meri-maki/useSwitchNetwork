@@ -27,7 +27,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(selected
 const connector = new InjectedConnector({ chains: selectedChains })
 
 const wagmiConfig = createConfig({
-	autoConnect: true,
+	autoConnect: false,
 	connectors: [
 		connector,
 		new MetaMaskConnector({
