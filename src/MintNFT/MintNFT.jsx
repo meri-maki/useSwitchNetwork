@@ -16,6 +16,7 @@ import mainconfig, { supportedChains } from "../config"
 
 import MintButton from "./MintButton"
 import { InjectedConnector } from "wagmi/connectors/injected"
+import { PURCHASE_ERRORS } from "../helpers/texts"
 
 const NFTcontracts = {
 	Sepolia: "0x42Fbf87Cd983c0F0BCdfF2d8A5904CD4968cD76F",

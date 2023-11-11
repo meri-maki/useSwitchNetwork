@@ -41,13 +41,11 @@ const NFT = forwardRef((props, ref) => {
 	return (
 		<section className={`${cls.nft} ${mainconfig.isSafari ? cls.nftSafari : ""}`} ref={ref} data-scroll-place-id="mint nft">
 			<div data-content ref={revealElements}>
-				{!isMobile && (
-					<div className={cls.mintBlock}>
-						<Suspense fallback={<span className="loader"></span>}>
-							<MintNFT data-reveal />
-						</Suspense>
-					</div>
-				)}
+				<div className={cls.mintBlock}>
+					<Suspense fallback={<span className="loader"></span>}>
+						<MintNFT data-reveal />
+					</Suspense>
+				</div>
 			</div>
 		</section>
 	)
