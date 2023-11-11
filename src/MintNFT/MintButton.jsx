@@ -1,5 +1,5 @@
-
 import React from "react"
+import { ampli, track } from "~/helpers/amplitude"
 
 import { supportedChains } from "~/config"
 import Button from "../ui/Button/Button"
@@ -15,6 +15,7 @@ const MintButton = (props) => {
 				<Button
 					disabled={isLoading}
 					onClick={() => {
+						track(ampli.mintNFT)
 
 						onCloseModal()
 						write?.()

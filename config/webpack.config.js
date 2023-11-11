@@ -18,7 +18,6 @@ module.exports = function (buildMode) {
 			template: "public/index.html",
 			chunks: ["main"],
 		},
-
 	]
 
 	const plugins = [
@@ -48,7 +47,7 @@ module.exports = function (buildMode) {
 			process: "process/browser",
 			Buffer: ["buffer", "Buffer"],
 		}),
-		!isProduction ? new BundleAnalyzerPlugin() : null,
+		/* !isProduction ? new BundleAnalyzerPlugin() : null, */
 	].filter(Boolean)
 	//const isDevelopment = !isProduction
 

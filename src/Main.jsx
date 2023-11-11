@@ -2,9 +2,9 @@ import React, { lazy, Suspense } from "react"
 import { Slide } from "react-toastify"
 import { ToastContainer } from "react-toastify"
 
-import ConnectButton from "./ConnectButton.jsx"
-import NFT from "./NFT/NFT.jsx"
-const MintNFT = lazy(() => import("./MintNFT/MintNFT"))
+
+
+const NFT = lazy(() => import("./NFT/NFT.jsx"))
 import Cross from "@/UI/icons/cross.svg"
 
 const CloseButton = ({ closeToast }) => <img className="closeBlack" onClick={closeToast} src={Cross} />
@@ -14,7 +14,6 @@ const Main = () => {
 		<>
 			<div id="content-wrap">
 				<main className="main-sections">
-					{/* <ConnectButton /> */}
 					<Suspense fallback={<p>Loading</p>}>
 						<NFT />
 					</Suspense>

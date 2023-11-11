@@ -1,19 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { Suspense, useCallback, useEffect, useState } from "react"
 
-import { useAccount, useNetwork } from "wagmi"
+import { useAccount, useConnect, useNetwork, useBalance, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi"
 import cls from "./MintNFT.module.scss"
 import "./toast.scss"
 
 import "react-toastify/dist/ReactToastify.css"
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi"
+
 import ConnectButton from "./ConnectButton"
 import MintSuccess from "./MintSuccess/MintSuccess"
 import { useToast } from "../helpers/hooks/useToast"
+import { ampli, track } from "~/helpers/amplitude"
 
-import { supportedChains } from "../config"
+import mainconfig, { supportedChains } from "../config"
 
 import MintButton from "./MintButton"
+import { InjectedConnector } from "wagmi/connectors/injected"
 
 const NFTcontracts = {
 	Sepolia: "0x42Fbf87Cd983c0F0BCdfF2d8A5904CD4968cD76F",
@@ -24,12 +26,18 @@ const NFTcontracts = {
 }
 
 const MintNFT = () => {
+	const isMetaMask = mainconfig.isMetaMask
+	const isMobile = mainconfig.isMobile
+
 	const [isSuccessModal, setIsSuccessModal] = useState(false)
 	const { dismissAll, mintError, chainSwitch, connectSuccess } = useToast()
-
+	const trackWalletMint = useCallback(() => {
+		track(ampli.walletMint)
+	}, [])
 	const { chain } = useNetwork()
-	const { isConnected } = useAccount({
+	const { isConnected, address } = useAccount({
 		onConnect({ address, connector, isReconnected }) {
+			track(ampli.walletSuccess, { account: address, connector: connector.name, isReconnected: isReconnected, chain: chain.name })
 			refetch()
 			connectSuccess()
 		},
@@ -38,6 +46,42 @@ const MintNFT = () => {
 			dismissAll()
 		},
 	})
+	useEffect(() => {
+		if (!isConnected) {
+			dismissAll()
+		}
+		return
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isConnected])
+
+	useBalance({
+		address: address,
+		onSuccess(data) {
+			track(ampli.walletSuccessBalance, { balance: `${data.formatted} ${data.symbol}`, currency: data.symbol })
+		},
+	})
+
+	const { connect } = useConnect({
+		connector: new InjectedConnector(),
+		onError(error) {
+			console.log("Error", error)
+			track(ampli.walletError, { error: error.message })
+		},
+	})
+
+	const handleConnect = useCallback(() => {
+		if (isMobile && isMetaMask) {
+			connect()
+		}
+	}, [connect, isMetaMask, isMobile])
+
+	useEffect(() => {
+		if (isConnected) {
+			return
+		} else handleConnect()
+		return
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	const { refetch, config } = usePrepareContractWrite({
 		address: isConnected ? NFTcontracts[chain.name] : "0x0",
@@ -63,19 +107,25 @@ const MintNFT = () => {
 	} = useWaitForTransaction({
 		hash: data?.hash,
 		onSuccess(data) {
+			track(ampli.mintSuccess, { transHash: data.transactionHash, NFTcontract: data.to })
 			onOpenModal()
+		},
+		onError(error) {
+			track(ampli.mintError, { error: error.message })
 		},
 	})
 	useEffect(() => {
 		if (isConnected && chain) {
 			if (supportedChains.includes(chain.id)) {
+				track(ampli.chain, { chain: chain })
+				chainSwitch(chain)
 				refetch()
 			} else {
 				console.log("unsupported chain")
 			}
 		}
 		return
-	}, [chain, isConnected, refetch])
+	}, [chain, chainSwitch, isConnected, refetch])
 
 	useEffect(() => {
 		if (isError || isTransError) {
@@ -85,11 +135,14 @@ const MintNFT = () => {
 				(error || transError)?.message.includes("rejected") ||
 				error?.code === 4001
 			) {
-				console.log("1")
+				mintError(PURCHASE_ERRORS[4001])
+				track(ampli.mintError, { error: (error || transError)?.message, type: "cancelled" })
 			} else if ((error || transError)?.message.includes("funds") || error?.code === -3200) {
-				console.log("1")
+				mintError(PURCHASE_ERRORS[3200])
+				track(ampli.mintError, { error: (error || transError)?.message, type: "insufficient funds" })
 			} else if ((error || transError)?.message) {
-				console.log("1")
+				mintError(PURCHASE_ERRORS.general)
+				track(ampli.mintError, { error: (error || transError)?.message, type: "other" })
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,6 +153,7 @@ const MintNFT = () => {
 	}, [])
 
 	const onOpenModal = useCallback(() => {
+		dismissAll()
 		setIsSuccessModal(true)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
@@ -108,7 +162,7 @@ const MintNFT = () => {
 		<div className={cls.MintNFT}>
 			<div className={`${cls.buttonsBlock} ${isLoading ? "disabled" : ""}`}>
 				<div className={isConnected ? cls.connected : cls.disconnected} id="mintID">
-					<ConnectButton chain={chain} connect header={false} />
+					<ConnectButton chain={chain} connect header={false} action={trackWalletMint} />
 				</div>
 				{isConnected && (
 					<Suspense fallback={<span className="loader"></span>}>
