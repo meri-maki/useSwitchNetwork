@@ -16,6 +16,7 @@ import mainconfig, { supportedChains } from "../config"
 
 import MintButton from "./MintButton"
 import { InjectedConnector } from "wagmi/connectors/injected"
+import { PURCHASE_ERRORS } from "../helpers/texts"
 
 const NFTcontracts = {
 	Sepolia: "0x42Fbf87Cd983c0F0BCdfF2d8A5904CD4968cD76F",
@@ -133,11 +134,11 @@ const MintNFT = () => {
 				(error || transError)?.message.includes("cancelled") ||
 				(error || transError)?.message.includes("canceled") ||
 				(error || transError)?.message.includes("rejected") ||
-				error?.code === 4001
+				(error || transError)?.code === 4001
 			) {
 				mintError(PURCHASE_ERRORS[4001])
 				track(ampli.mintError, { error: (error || transError)?.message, type: "cancelled" })
-			} else if ((error || transError)?.message.includes("funds") || error?.code === -3200) {
+			} else if ((error || transError)?.message.includes("funds") || (error || transError)?.code === -3200) {
 				mintError(PURCHASE_ERRORS[3200])
 				track(ampli.mintError, { error: (error || transError)?.message, type: "insufficient funds" })
 			} else if ((error || transError)?.message) {

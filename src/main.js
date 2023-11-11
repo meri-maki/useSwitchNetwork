@@ -4,6 +4,7 @@ import "~/styles/helpers/animations.scss"
 import "~/styles/helpers/moving-objects.scss"
 import "~/styles/ui/index.scss"
 import { walletConnectProvider } from "@web3modal/wagmi"
+import ErrorBoundary from "~/ErrorBoundary/ErrorBoundary.jsx"
 
 import { createRoot } from "react-dom/client"
 
@@ -61,6 +62,8 @@ const root = createRoot(document.getElementById("page-container"))
 
 root.render(
 	<WagmiConfig config={wagmiConfig}>
-		<Main />
+		<ErrorBoundary>
+			<Main />
+		</ErrorBoundary>
 	</WagmiConfig>
 )
