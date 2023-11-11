@@ -13,7 +13,7 @@ import DiamondCianSmall from "@/NFT/diamondcian2.webp"
 import DiamondPurple from "@/UTIL/diamond.webp"
 
 import mainconfig from "../config"
-
+//import MintNFT from "../../MintNFT/MintNFT"
 
 const MintNFT = lazy(() => import("../MintNFT/MintNFT"))
 
@@ -51,7 +51,7 @@ const NFT = forwardRef((props, ref) => {
 					<img alt="icon" src={DiamondPink} className={cls.diamondPink} data-reveal="2" data-absolute width="64" height="64" data-object />
 					<img alt="icon" src={DiamondBlue} className={cls.diamondBlue} data-reveal="2" data-absolute width="80" height="80" data-object />
 					<h5>
-						all logic mint, npm packages from prod, error boundary
+						all logic mint
 					</h5>
 					<div className={cls.imagesBlock}>
 						<div className={cls.wrapper}>

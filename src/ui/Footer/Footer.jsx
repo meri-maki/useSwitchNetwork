@@ -6,7 +6,7 @@ import X from "@/UI/icons/twitter-x.svg"
 import Discord from "@/UI/icons/discord.svg"
 
 import { Links } from "~/helpers/texts"
-import { ampli, track } from "~/helpers/amplitude.js"
+import { ampli, track } from "../../../helpers/amplitude.js"
 
 const Footer = (_props) => {
 	return (
