@@ -2,7 +2,10 @@
 	"name": "tooncoinweb",
 	"version": "1.0.0",
 	"description": "toon.org site",
-	"sideEffects": ["*.css", "*.scss"],
+	"sideEffects": [
+		"*.css",
+		"*.scss"
+	],
 	"scripts": {
 		"start": "node scripts/start.js",
 		"build": "node scripts/build.js",
@@ -68,6 +71,7 @@
 		"path-browserify": "^1.0.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-toastify": "^9.1.3",
 		"viem": "^1.16.2",
 		"wagmi": "^1.4.3"
 	},

@@ -3,10 +3,13 @@ import React, { Suspense, useCallback, useEffect, useState } from "react"
 
 import { useAccount, useNetwork } from "wagmi"
 import cls from "./MintNFT.module.scss"
+import "./toast.scss"
 
+import "react-toastify/dist/ReactToastify.css"
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi"
 import ConnectButton from "./ConnectButton"
 import MintSuccess from "./MintSuccess/MintSuccess"
+import { useToast } from "../helpers/hooks/useToast"
 
 import { supportedChains } from "../config"
 
@@ -22,11 +25,17 @@ const NFTcontracts = {
 
 const MintNFT = () => {
 	const [isSuccessModal, setIsSuccessModal] = useState(false)
+	const { dismissAll, mintError, chainSwitch, connectSuccess } = useToast()
 
 	const { chain } = useNetwork()
 	const { isConnected } = useAccount({
 		onConnect({ address, connector, isReconnected }) {
 			refetch()
+			connectSuccess()
+		},
+
+		onDisconnect() {
+			dismissAll()
 		},
 	})
 
