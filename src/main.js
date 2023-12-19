@@ -48,7 +48,7 @@ const wagmiConfig = createConfig({
 })
 
 createWeb3Modal({
-	defaultChain: mainnet,
+	defaultChain: optimism,
 	wagmiConfig,
 	projectId,
 	chains,
