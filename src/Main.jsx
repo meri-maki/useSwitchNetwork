@@ -1,8 +1,9 @@
 import React from "react"
-import MintNFT from "./MintNFT/MintNFT.jsx"
+
+import ConnectButton from "./MintNFT/ConnectButton.jsx"
 
 const Main = () => {
-	return <MintNFT />
+	return <ConnectButton />
 }
 
 export default Main

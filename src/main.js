@@ -7,7 +7,7 @@ import { createRoot } from "react-dom/client"
 import React from "react"
 
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi"
-import { polygon, arbitrum, bsc, sepolia } from "wagmi/chains"
+import { optimism } from "wagmi/chains"
 import { InjectedConnector } from "wagmi/connectors/injected"
 
 import { infuraProvider } from "wagmi/providers/infura"
@@ -22,7 +22,7 @@ import mainconfig from "./config"
 const infuraId = mainconfig.services.infura.key
 const projectId = mainconfig.services.walletconnect.key
 
-const selectedChains = [mainnet, polygon, arbitrum, bsc]
+const selectedChains = [optimism]
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(selectedChains, [infuraProvider({ apiKey: infuraId }), walletConnectProvider({ projectId }), publicProvider()])
 const connector = new InjectedConnector({ chains: selectedChains })

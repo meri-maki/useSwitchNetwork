@@ -26,17 +26,22 @@ const ConnectButton = (props) => {
 	const isMetaMask = mainconfig.isMetaMask
 	const isMobile = mainconfig.isMobile
 	return (
-		<Button
-			headerBtn={header}
-			pink
-			connect={connect}
-			onClick={() => {
-				open()
-			}}
-		>
-			Connect Wallet
-			<div className="sh"></div>
-		</Button>
+		<>
+			{isConnected ? (
+				<>
+					<Chain />
+					<Account />
+				</>
+			) : (
+				<Button
+					onClick={() => {
+						open()
+					}}
+				>
+					Connect Wallet
+				</Button>
+			)}
+		</>
 	)
 }
 export default React.memo(ConnectButton)
